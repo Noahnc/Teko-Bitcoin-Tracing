@@ -1,0 +1,33 @@
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'application'
+}
+
+group 'ch.teko.nc'
+version '1.0'
+
+repositories {
+    mavenCentral()
+
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:27.0.1-jre'
+    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation fileTree(dir: 'libs', include: '*.jar')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+javafx {
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+mainClassName = 'Program'
