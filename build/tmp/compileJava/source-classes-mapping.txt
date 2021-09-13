@@ -1,18 +1,14 @@
-model/SBBStoerungRecord.java
- model.SBBStoerungRecord
-model/SBBStoerung.java
- model.SBBStoerung
+model/TransactionByBitcoinObject.java
+ model.TransactionByBitcoinObject
+model/TransactionsByBitcoin.java
+ model.TransactionsByBitcoin
+model/TransactionsByTxid.java
+ model.TransactionsByTxid
+model/TransactionByTxidObject.java
+ model.TransactionByTxidObject
+apis/BitcoinAPIHandler.java
+ apis.BitcoinAPIHandler
 Program.java
  Program
-controller/DetailsController.java
- controller.DetailsController
-controller/ListItemController.java
- controller.ListItemController
-model/SBBStoerungField.java
- model.SBBStoerungField
-controller/SbbBackgroundLoader.java
- controller.SbbBackgroundLoader
-controller/ListController.java
- controller.ListController
-apis/SbbApiHandler.java
- apis.SbbApiHandler
+controller/MainController.java
+ controller.MainController

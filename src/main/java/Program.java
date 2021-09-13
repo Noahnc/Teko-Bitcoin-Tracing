@@ -5,14 +5,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.TransactionsByBitcoin;
-
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
 public class Program extends Application {
 
-    public static Boolean DebugMode = true;
+    public static Boolean DebugMode = false;
     public static String BitcoinAddress;
 
 
@@ -41,9 +39,7 @@ public class Program extends Application {
             BitcoinAPIHandler TestHanlder = new BitcoinAPIHandler();
             TransactionsByBitcoin Transactions = TestHanlder.getBitcoinTransactionsByBitcoinID(BitcoinAddress);
 
-            for (var transaction : Transactions.object.entrySet()) {
-                System.out.println(transaction.getKey());
-            }
+
 
 
         }

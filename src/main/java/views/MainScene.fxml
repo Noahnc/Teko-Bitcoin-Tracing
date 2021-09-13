@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="626.0" prefWidth="956.0" style="-fx-background-color: #FFF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
-
+   <children>
+      <AnchorPane prefHeight="60.0" prefWidth="956.0" style="-fx-background-color: #D2C9C7;">
+         <children>
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="956.0">
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" prefHeight="46.0" prefWidth="216.0" text="Bitcoin Tracer" textFill="#393535">
+                     <font>
+                        <Font name="Arial Bold" size="31.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="MainWindowsImage" fitHeight="70.0" fitWidth="70.0" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <VBox fx:id="TransactionsVBox" layoutY="134.0" prefHeight="494.0" prefWidth="963.0" />
+      <TextField fx:id="BitcoinAddressValue" layoutX="201.0" layoutY="99.0" prefHeight="25.0" prefWidth="433.0" promptText="Bitcoin Addresse eingeben" />
+      <Button fx:id="StartBitcoinTracing" layoutX="640.0" layoutY="99.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="Verfolgung starten" />
+   </children>
 </AnchorPane>
