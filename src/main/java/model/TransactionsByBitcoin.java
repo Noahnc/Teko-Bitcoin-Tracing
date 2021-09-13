@@ -1,13 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class TransactionsByBitcoin {
 
-    public String _id;
-    public String spentTxid;
-    public String mintTxid;
-    public String mintHeight;
-    public String spentHeight;
-    public String address;
-    public int value;
+    public Map<Integer, List<TransactionByBitcoinObject>> object;
 
 }
