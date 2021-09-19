@@ -8,13 +8,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Font;
 import logic.BitcoinHandler;
 
@@ -70,11 +70,11 @@ public class MainController implements Initializable {
 
     }
 
-    void ClearTransactionsVBox(){
+    void ClearTransactionsVBox() {
         TransactionsVBox.getChildren().removeAll(TransactionsVBox.getChildren());
     }
 
-    void EnableLoadingAnimation(){
+    void EnableLoadingAnimation() {
         TransactionsVBox.getChildren().add(new ImageView(LoadingImage));
         TransactionsVBox.getChildren().add(new Label("Bitcoins werden gesucht"));
     }
