@@ -1,14 +1,16 @@
 model/TransactionByBitcoinObject.java
  model.TransactionByBitcoinObject
-model/TransactionsByBitcoin.java
- model.TransactionsByBitcoin
+apis/BitcoinAPIHandler.java
+ apis.BitcoinAPIHandler
 model/TransactionsByTxid.java
  model.TransactionsByTxid
 model/TransactionByTxidObject.java
  model.TransactionByTxidObject
-apis/BitcoinAPIHandler.java
- apis.BitcoinAPIHandler
 Program.java
  Program
+model/TransactionsByBitcoin.java
+ model.TransactionsByBitcoin
+logic/BitcoinHandler.java
+ logic.BitcoinHandler
 controller/MainController.java
  controller.MainController
