@@ -1,10 +1,13 @@
 package logic;
 
-import javafx.scene.layout.VBox;
+import apis.BitcoinAPIHandler;
 
 import java.util.ArrayList;
 
 public class BitcoinHandler {
+
+    BitcoinAPIHandler APIHandler = new BitcoinAPIHandler();
+    ArrayList<String> BitcoinAddresses;
 
     public boolean CheckIfBitcoinAddressIsValid(String BitcoinAddress) {
         boolean isValid = true;
@@ -14,7 +17,7 @@ public class BitcoinHandler {
     }
 
     public ArrayList getBitcoinAddresses(String BitcoinAddress) {
-        ArrayList<String> BitcoinAddresses = new ArrayList<String>();
+        BitcoinAddresses = new ArrayList<String>();
 
 
         return BitcoinAddresses;
