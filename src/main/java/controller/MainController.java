@@ -48,23 +48,18 @@ public class MainController implements Initializable {
         } else {
             if (Bitcoinhandler.CheckIfBitcoinAddressIsValid(BitcoinAddress)) {
                 EnableLoadingAnimation();
+                Bitcoinhandler.OutputAllAddressesForTesting(BitcoinAddress);
                 BitcoinAddresses = Bitcoinhandler.getBitcoinAddresses(BitcoinAddress);
 
-                if (BitcoinAddresses.size() == 0) {
-                    InputInfo.setText("Unter dieser Bitcoin Adresse wurde keine ausgehende Transaktion gefunden.");
-                    ClearTransactionsVBox();
-                } else {
-                    ClearTransactionsVBox();
-                    for (var address : BitcoinAddresses) {
-                        BitcoinAddressText = new Label(address);
-                        BitcoinAddressText.setFont(new Font("Arial", 20));
-                        TransactionsVBox.getChildren().add(BitcoinAddressText);
-
-                    }
+                ClearTransactionsVBox();
+                for (var address : BitcoinAddresses) {
+                    BitcoinAddressText = new Label(address);
+                    BitcoinAddressText.setFont(new Font("Arial", 20));
+                    TransactionsVBox.getChildren().add(BitcoinAddressText);
                 }
 
             } else {
-                InputInfo.setText("Keine gültige Bitcoin Adresse eingegeben!");
+                InputInfo.setText("Unter dieser Bitcoin Adresse wurde keine ausgehende Transaktion gefunden.");
             }
         }
 

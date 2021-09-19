@@ -1,15 +1,17 @@
 package model;
 
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+
 public class TransactionByTxidObject {
 
-    public String _id;
-    public Integer mintIndex;
-    public String spentTxid;
-    public String mintTxid;
-    public Integer mintHeight;
-    public Integer spentHeight;
-    public String address;
-    public Integer value;
-
+    @SerializedName("inputs")
+    @Expose
+    public List<TransactionByTxidObjectInput> inputs = null;
+    @SerializedName("outputs")
+    @Expose
+    public List<TransactionByTxidObjectOutput> outputs = null;
 
 }

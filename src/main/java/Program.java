@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.TransactionsByBitcoin;
+import model.TransactionByBitcoinObject;
 import java.io.File;
 import java.io.IOException;
 
@@ -32,16 +32,5 @@ public class Program extends Application {
             System.out.print(ex);
         }
 
-        if (DebugMode) {
-
-            BitcoinAddress = "1JC41YHmjKEcW1rLH6pmMWEFHkoNwSmhnC";
-
-            BitcoinAPIHandler TestHanlder = new BitcoinAPIHandler();
-            TransactionsByBitcoin Transactions = TestHanlder.getBitcoinTransactionsByBitcoinID(BitcoinAddress);
-
-
-
-
-        }
     }
 }

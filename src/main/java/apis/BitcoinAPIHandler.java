@@ -2,15 +2,15 @@
 package apis;
 
 import com.google.gson.Gson;
-import model.TransactionsByBitcoin;
-import model.TransactionsByTxid;
+import model.TransactionByBitcoinObject;
+import model.TransactionByTxidObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
+
 
 
 public class BitcoinAPIHandler {
@@ -19,7 +19,7 @@ public class BitcoinAPIHandler {
     private URL RequestURL;
 
     // Sucht nach Transaktionen einer Bitcoin Adresse
-    public TransactionsByBitcoin getBitcoinTransactionsByBitcoinID(String BitcoinAddress) throws IOException {
+    public TransactionByBitcoinObject[] getBitcoinTransactionsByBitcoinID(String BitcoinAddress) throws IOException {
 
         String APIEndpoint = "/api/BTC/mainnet/address/";
         String url = BaseURL + APIEndpoint + BitcoinAddress;
@@ -29,14 +29,14 @@ public class BitcoinAPIHandler {
         InputStreamReader JsonData = new InputStreamReader((InputStream) APIrequest.getContent());
 
         Gson gson = new Gson();
-        TransactionsByBitcoin Transactions = gson.fromJson(JsonData, model.TransactionsByBitcoin.class);
+        TransactionByBitcoinObject[] Transactions = gson.fromJson(JsonData, model.TransactionByBitcoinObject[].class);
 
         return Transactions;
 
     }
 
     // Sucht nach Transaktionen anhand TXid
-    public TransactionsByTxid getBitcoinTransactionsByTxID(String BitcoinTxid) throws IOException {
+    public TransactionByTxidObject[] getBitcoinTransactionsByTxID(String BitcoinTxid) throws IOException {
 
         String APIEndpoint = "/api/BTC/mainnet/tx/";
         String url = BaseURL + APIEndpoint + BitcoinTxid + "/coins";
@@ -46,7 +46,7 @@ public class BitcoinAPIHandler {
         InputStreamReader JsonData = new InputStreamReader((InputStream) APIrequest.getContent());
 
         Gson gson = new Gson();
-        TransactionsByTxid Transactions = gson.fromJson(JsonData, model.TransactionsByTxid.class);
+        TransactionByTxidObject[] Transactions = gson.fromJson(JsonData, model.TransactionByTxidObject[].class);
 
         return Transactions;
 
@@ -62,11 +62,15 @@ public class BitcoinAPIHandler {
         APIrequest.connect();
         InputStreamReader JsonData = new InputStreamReader((InputStream) APIrequest.getContent());
 
-        if (JsonData.equals("[]")) {
+        Gson gson = new Gson();
+        TransactionByBitcoinObject[] Transactions = gson.fromJson(JsonData, model.TransactionByBitcoinObject[].class);
+
+        if (Transactions.length == 0){
             return false;
         } else {
             return true;
         }
+
     }
 
 
