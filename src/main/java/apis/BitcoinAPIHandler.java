@@ -18,7 +18,7 @@ public class BitcoinAPIHandler {
     private String BaseURL = "https://api.bitcore.io";
     private URL RequestURL;
 
-
+    // Sucht nach Transaktionen einer Bitcoin Adresse
     public TransactionsByBitcoin getBitcoinTransactionsByBitcoinID(String BitcoinAddress) throws IOException {
 
         String APIEndpoint = "/api/BTC/mainnet/address/";
@@ -35,6 +35,7 @@ public class BitcoinAPIHandler {
 
     }
 
+    // Sucht nach Transaktionen anhand TXid
     public TransactionsByTxid getBitcoinTransactionsByTxID(String BitcoinTxid) throws IOException {
 
         String APIEndpoint = "/api/BTC/mainnet/tx/";
@@ -49,6 +50,23 @@ public class BitcoinAPIHandler {
 
         return Transactions;
 
+    }
+
+    // Methode zum überprüfen, ob eine Bitcoin Adresse gültig ist
+    public boolean CheckIfAddressIsValid(String BitcoinAddress) throws IOException {
+
+        String APIEndpoint = "/api/BTC/mainnet/address/";
+        String url = BaseURL + APIEndpoint + BitcoinAddress;
+        RequestURL = new URL(url);
+        URLConnection APIrequest = RequestURL.openConnection();
+        APIrequest.connect();
+        InputStreamReader JsonData = new InputStreamReader((InputStream) APIrequest.getContent());
+
+        if (JsonData.equals("[]")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 

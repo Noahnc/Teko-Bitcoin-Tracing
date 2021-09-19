@@ -25,7 +25,7 @@
             </HBox>
          </children>
       </AnchorPane>
-      <VBox fx:id="TransactionsVBox" layoutY="150.0" prefHeight="478.0" prefWidth="963.0" />
+      <VBox fx:id="TransactionsVBox" alignment="TOP_CENTER" layoutY="150.0" prefHeight="478.0" prefWidth="956.0" />
       <TextField fx:id="BitcoinAddressValue" layoutX="201.0" layoutY="99.0" prefHeight="25.0" prefWidth="433.0" promptText="Bitcoin Addresse eingeben" />
       <Button fx:id="StartBitcoinTracing" layoutX="640.0" layoutY="99.0" mnemonicParsing="false" onAction="#StartTracing" prefHeight="25.0" prefWidth="127.0" text="Verfolgung starten" />
       <Label fx:id="InputInfo" layoutX="201.0" layoutY="124.0" prefHeight="17.0" prefWidth="433.0" textFill="#c33737" />
