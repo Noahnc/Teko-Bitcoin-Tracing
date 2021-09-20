@@ -19,24 +19,11 @@ public class BitcoinHandler {
         }
     }
 
-    public ArrayList getBitcoinAddresses(String BitcoinAddress) {
+    public ArrayList getBitcoinAddresses(String BitcoinAddress, int LayerDepht) {
         BitcoinAddresses = new ArrayList<String>();
 
 
         return BitcoinAddresses;
-    }
-
-
-    public void OutputAllAddressesForTesting(String BitcoinAddress) throws IOException {
-        TransactionByBitcoinObject[] Transactions = APIHandler.getBitcoinTransactionsByBitcoinID(BitcoinAddress);
-
-        for (var transaction : Transactions) {
-
-            System.out.println(transaction.spentTxid);
-
-        }
-
-
     }
 }
 

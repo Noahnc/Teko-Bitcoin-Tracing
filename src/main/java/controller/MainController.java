@@ -3,6 +3,7 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -28,6 +29,9 @@ public class MainController implements Initializable {
 
         File image = new File("src/assets/bitcoin.png");
         MainWindowsImage.setImage(new Image(image.toURI().toString()));
+        LayerDepth.getItems().addAll(5, 10, 50, 200, 1000);
+        LayerDepth.getSelectionModel().selectFirst();
+
 
     }
 
@@ -48,8 +52,7 @@ public class MainController implements Initializable {
         } else {
             if (Bitcoinhandler.CheckIfBitcoinAddressIsValid(BitcoinAddress)) {
                 EnableLoadingAnimation();
-                Bitcoinhandler.OutputAllAddressesForTesting(BitcoinAddress);
-                BitcoinAddresses = Bitcoinhandler.getBitcoinAddresses(BitcoinAddress);
+                BitcoinAddresses = Bitcoinhandler.getBitcoinAddresses(BitcoinAddress, LayerDepth.getValue());
 
                 ClearTransactionsVBox();
                 for (var address : BitcoinAddresses) {
@@ -74,6 +77,10 @@ public class MainController implements Initializable {
         TransactionsVBox.getChildren().add(new Label("Bitcoins werden gesucht"));
     }
 
+    void AddTransactionsToListView(){
+
+    }
+
 
     @FXML
     protected ImageView MainWindowsImage;
@@ -88,5 +95,33 @@ public class MainController implements Initializable {
     protected VBox TransactionsVBox;
     @FXML
     protected Label InputInfo;
+
+    @FXML
+    protected ComboBox<Integer> LayerDepth;
+
+    @FXML public void OnLayerDepthSelectionChnage() {
+        switch (LayerDepth.getValue()) {
+            case 5:
+                LayerDepth.setPrefWidth(60);
+                break;
+
+            case 10:
+                LayerDepth.setPrefWidth(65);
+                break;
+            case 50:
+                LayerDepth.setPrefWidth(65);
+                break;
+
+            case 200:
+                LayerDepth.setPrefWidth(72);
+                break;
+
+            case 1000:
+                LayerDepth.setPrefWidth(79);
+                break;
+
+        }
+    }
+
 
 }
