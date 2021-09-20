@@ -1,10 +1,9 @@
-import apis.BitcoinAPIHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.TransactionByBitcoinObject;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -19,7 +18,7 @@ public class Program extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Bitcoin Tracer");
 
         try {
@@ -31,6 +30,5 @@ public class Program extends Application {
         } catch (Exception ex) {
             System.out.print(ex);
         }
-
     }
 }
