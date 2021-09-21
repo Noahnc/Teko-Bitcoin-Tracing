@@ -1,20 +1,20 @@
-model/TransactionByBitcoinObject.java
- model.TransactionByBitcoinObject
-logic/MarkedBitcoinService.java
- logic.MarkedBitcoinService
-model/MarkedBitcoin.java
- model.MarkedBitcoin
 logic/BitcoinHandler.java
  logic.BitcoinHandler
 model/TransactionByTxidObjectOutput.java
  model.TransactionByTxidObjectOutput
 model/TransactionByTxidObjectInput.java
  model.TransactionByTxidObjectInput
+Program.java
+ Program
+logic/MarkedBitcoinService.java
+ logic.MarkedBitcoinService
+model/MarkedBitcoin.java
+ model.MarkedBitcoin
 model/TransactionByTxidObject.java
  model.TransactionByTxidObject
 apis/BitcoinAPIHandler.java
  apis.BitcoinAPIHandler
-Program.java
- Program
+model/TransactionByBitcoinObject.java
+ model.TransactionByBitcoinObject
 controller/MainController.java
  controller.MainController

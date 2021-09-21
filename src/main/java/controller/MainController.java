@@ -44,10 +44,7 @@ public class MainController implements Initializable {
         File image = new File("src/assets/bitcoin.png");
         MainWindowsImage.setImage(new Image(image.toURI().toString()));
 
-        for (var i = 1; i <= 15; i++) {
-            LayerDepth.getItems().add(i);
-        }
-
+        LayerDepth.getItems().addAll(1, 5, 10, 50, 200, 1000);
         LayerDepth.getSelectionModel().selectFirst();
     }
 
@@ -113,7 +110,34 @@ public class MainController implements Initializable {
 
     void EnableLoadingAnimation() {
         TransactionsVBox.getChildren().add(new ImageView(LoadingImage));
-        TransactionsVBox.getChildren().add(new Label("Bitcoins werden gesucht"));
+        TransactionsVBox.getChildren().add(new Label("Bitcoins werden gesucht, bitte warten!"));
         StartBitcoinTracing.setDisable(true);
+    }
+
+    @FXML public void OnLayerDepthSelectionChnage() {
+        switch (LayerDepth.getValue()) {
+            case 1:
+                LayerDepth.setPrefWidth(60);
+                break;
+            case 5:
+                LayerDepth.setPrefWidth(60);
+                break;
+
+            case 10:
+                LayerDepth.setPrefWidth(65);
+                break;
+            case 50:
+                LayerDepth.setPrefWidth(65);
+                break;
+
+            case 200:
+                LayerDepth.setPrefWidth(72);
+                break;
+
+            case 1000:
+                LayerDepth.setPrefWidth(79);
+                break;
+
+        }
     }
 }
