@@ -1,79 +1,55 @@
-
 package apis;
 
 import com.google.gson.Gson;
 import model.TransactionByBitcoinObject;
 import model.TransactionByTxidObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
-
-
 
 public class BitcoinAPIHandler {
 
-    private String BaseURL = "https://api.bitcore.io";
-    private URL RequestURL;
+    private final String baseURL = "https://api.bitcore.io";
 
-    // Sucht nach Transaktionen einer Bitcoin Adresse
-    public TransactionByBitcoinObject[] getBitcoinTransactionsByBitcoinID(String BitcoinAddress) throws IOException {
+    public TransactionByBitcoinObject[] getTransactionsForAddress(String btcAddress) throws IOException {
 
-        String APIEndpoint = "/api/BTC/mainnet/address/";
-        String url = BaseURL + APIEndpoint + BitcoinAddress;
-        RequestURL = new URL(url);
-        URLConnection APIrequest = RequestURL.openConnection();
-        APIrequest.connect();
-        InputStreamReader JsonData = new InputStreamReader((InputStream) APIrequest.getContent());
+        var apiEndpoint = "/api/BTC/mainnet/address/";
+        var url = baseURL + apiEndpoint + btcAddress + "?limit=1000";
 
-        Gson gson = new Gson();
-        TransactionByBitcoinObject[] Transactions = gson.fromJson(JsonData, model.TransactionByBitcoinObject[].class);
+        var apiRequest = new URL(url).openConnection();
+        apiRequest.connect();
 
-        return Transactions;
-
+        var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
+        return new Gson().fromJson(JsonData, TransactionByBitcoinObject[].class);
     }
 
-    // Sucht nach Transaktionen anhand TXid
-    public TransactionByTxidObject[] getBitcoinTransactionsByTxID(String BitcoinTxid) throws IOException {
+    public TransactionByTxidObject getTransactionDetails(String bitcoinTxid) throws IOException {
 
-        String APIEndpoint = "/api/BTC/mainnet/tx/";
-        String url = BaseURL + APIEndpoint + BitcoinTxid + "/coins";
-        RequestURL = new URL(url);
-        URLConnection APIrequest = RequestURL.openConnection();
-        APIrequest.connect();
-        InputStreamReader JsonData = new InputStreamReader((InputStream) APIrequest.getContent());
+        var APIEndpoint = "/api/BTC/mainnet/tx/";
+        var url = baseURL + APIEndpoint + bitcoinTxid + "/coins";
 
-        Gson gson = new Gson();
-        TransactionByTxidObject[] Transactions = gson.fromJson(JsonData, model.TransactionByTxidObject[].class);
+        var apiRequest = new URL(url).openConnection();
+        apiRequest.connect();
 
-        return Transactions;
-
+        var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
+        return new Gson().fromJson(JsonData, TransactionByTxidObject.class);
     }
 
     // Methode zum überprüfen, ob eine Bitcoin Adresse gültig ist
     public boolean CheckIfAddressIsValid(String BitcoinAddress) throws IOException {
 
-        String APIEndpoint = "/api/BTC/mainnet/address/";
-        String url = BaseURL + APIEndpoint + BitcoinAddress;
-        RequestURL = new URL(url);
-        URLConnection APIrequest = RequestURL.openConnection();
-        APIrequest.connect();
-        InputStreamReader JsonData = new InputStreamReader((InputStream) APIrequest.getContent());
+        var APIEndpoint = "/api/BTC/mainnet/address/";
+        var url = baseURL + APIEndpoint + BitcoinAddress;
 
-        Gson gson = new Gson();
-        TransactionByBitcoinObject[] Transactions = gson.fromJson(JsonData, model.TransactionByBitcoinObject[].class);
+        var apiRequest = new URL(url).openConnection();
+        apiRequest.connect();
 
-        if (Transactions.length == 0){
-            return false;
-        } else {
-            return true;
-        }
+        var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
+        var Transactions = new Gson().fromJson(JsonData, model.TransactionByBitcoinObject[].class);
 
+        return Transactions.length != 0;
     }
-
-
 }
 
 

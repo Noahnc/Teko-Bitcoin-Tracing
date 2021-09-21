@@ -1,8 +1,6 @@
 package logic;
 
 import apis.BitcoinAPIHandler;
-import model.TransactionByBitcoinObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
