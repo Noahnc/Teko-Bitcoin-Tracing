@@ -6,10 +6,10 @@ Program.java
  Program
 model/MarkedBitcoin.java
  model.MarkedBitcoin
-controller/MainController.java
- controller.MainController
 model/TransactionByTxidObject.java
  model.TransactionByTxidObject
+controller/MainController.java
+ controller.MainController
 apis/BitcoinAPIHandler.java
  apis.BitcoinAPIHandler
 model/TransactionByBitcoinObject.java

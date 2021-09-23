@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import logic.MarkedBitcoinService;
 import model.MarkedBitcoin;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -69,8 +68,7 @@ public class MainController implements Initializable {
         }
 
         // Checkt die Bitcoin Adresse
-        var markedBitcoinService = new MarkedBitcoinService();
-        if (!markedBitcoinService.CheckIfBitcoinAddressIsValid(bitcoinAddressValueText)) {
+        if (!new MarkedBitcoinService().CheckIfBitcoinAddressIsValid(bitcoinAddressValueText)) {
             InputInfo.setText("Unter dieser Bitcoin Adresse wurde keine ausgehende Transaktion gefunden.");
             return;
         }
@@ -79,7 +77,11 @@ public class MainController implements Initializable {
         Thread thread = new Thread(() -> {
             try {
                 var result = new MarkedBitcoin(BitcoinAddressValue.getText());
+
+                var markedBitcoinService = new MarkedBitcoinService();
                 markedBitcoinService.calculateMarkedBitcoinsRecursive(result.getAddress(), result, LayerDepth.getValue(), 0, new String[0]);
+
+                System.out.print("Total requests: " + markedBitcoinService.getRequestCount());
 
                 Platform.runLater(() -> {
                     disableLoadingAnimation();
@@ -96,6 +98,8 @@ public class MainController implements Initializable {
                     TransactionsVBox.getChildren().add(treeView);
                 });
             } catch (IOException e) {
+                InputInfo.setText("Es ist ein unerwarteter Fehler aufgetreten. Versuchen ");
+                disableLoadingAnimation();
                 e.printStackTrace();
             }
         });

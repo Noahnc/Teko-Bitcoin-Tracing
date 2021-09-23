@@ -13,9 +13,14 @@ import java.util.Map;
 public class MarkedBitcoinService {
 
     private final BitcoinAPIHandler bitcoinAPIHandler;
+    private final int maxRetries = 3;
 
     public MarkedBitcoinService() {
         bitcoinAPIHandler = new BitcoinAPIHandler();
+    }
+
+    public int getRequestCount() {
+        return bitcoinAPIHandler.getRequestCalls();
     }
 
     // Startet die Berechnung der markierten Bitcoins
@@ -25,7 +30,7 @@ public class MarkedBitcoinService {
 
         currentLevel++;
 
-        var markedTransactions = Arrays.stream(bitcoinAPIHandler.getTransactionsForAddress(address))
+        var markedTransactions = Arrays.stream(bitcoinAPIHandler.getTransactionsForAddress(address, maxRetries, 0))
                 .filter(transactionByBitcoinObject -> transactionByBitcoinObject.spentTxid != null && !transactionByBitcoinObject.spentTxid.isEmpty());
 
         if (txId != null && txId.length > 0)
@@ -52,7 +57,7 @@ public class MarkedBitcoinService {
 
     // Checkt ob die Bitcoin Adresse gueltig ist und transaktionen beinhaltet
     public boolean CheckIfBitcoinAddressIsValid(String BitcoinAddress) throws IOException {
-        if (bitcoinAPIHandler.CheckIfAddressIsValid(BitcoinAddress)) {
+        if (bitcoinAPIHandler.CheckIfAddressIsValid(BitcoinAddress, maxRetries, 0)) {
             return true;
         } else {
             return false;
@@ -62,7 +67,7 @@ public class MarkedBitcoinService {
     // Gibt die naechsten Adressen zurueck,die ueberpruft werden muessen (LIFO Prinzip)
     private MarkedBitcoin[] getNextAddressesToTrackWithLiFo(TransactionByBitcoinObject btcAddressTransaction, String markedBtcAddress) throws IOException {
         var toTrackAddresses = new ArrayList<MarkedBitcoin>();
-        var transactionDetails = bitcoinAPIHandler.getTransactionDetails(btcAddressTransaction.spentTxid);
+        var transactionDetails = bitcoinAPIHandler.getTransactionDetails(btcAddressTransaction.spentTxid, maxRetries, 0);
 
         var input = getNextInput(transactionDetails.inputs);
         if (input == null)

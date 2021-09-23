@@ -11,44 +11,79 @@ import java.net.URL;
 public class BitcoinAPIHandler {
 
     private final String baseURL = "https://api.bitcore.io";
+    private int requestCalls = 0;
 
-    public TransactionByBitcoinObject[] getTransactionsForAddress(String btcAddress) throws IOException {
+    // API Endpoint: "/api/BTC/mainnet/address/"
+    public TransactionByBitcoinObject[] getTransactionsForAddress(String btcAddress, int maxRetries, int currentRetry) throws IOException {
 
-        var apiEndpoint = "/api/BTC/mainnet/address/";
-        var url = baseURL + apiEndpoint + btcAddress + "?limit=1000";
+        try {
+            var apiEndpoint = "/api/BTC/mainnet/address/";
+            var url = baseURL + apiEndpoint + btcAddress + "?limit=100";
 
-        var apiRequest = new URL(url).openConnection();
-        apiRequest.connect();
+            var apiRequest = new URL(url).openConnection();
+            apiRequest.connect();
+            requestCalls++;
 
-        var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
-        return new Gson().fromJson(JsonData, TransactionByBitcoinObject[].class);
+            var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
+            return new Gson().fromJson(JsonData, TransactionByBitcoinObject[].class);
+        } catch (Exception ex) {
+            currentRetry++;
+            if(currentRetry > maxRetries)
+                throw new IOException("No more retries");
+
+            return getTransactionsForAddress(btcAddress, maxRetries, currentRetry);
+        }
     }
 
-    public TransactionByTxidObject getTransactionDetails(String bitcoinTxid) throws IOException {
+    // API Endpoint: "/api/BTC/mainnet/tx/"
+    public TransactionByTxidObject getTransactionDetails(String bitcoinTxid, int maxRetries, int currentRetry) throws IOException {
 
-        var APIEndpoint = "/api/BTC/mainnet/tx/";
-        var url = baseURL + APIEndpoint + bitcoinTxid + "/coins";
+        try {
+            var APIEndpoint = "/api/BTC/mainnet/tx/";
+            var url = baseURL + APIEndpoint + bitcoinTxid + "/coins";
 
-        var apiRequest = new URL(url).openConnection();
-        apiRequest.connect();
+            var apiRequest = new URL(url).openConnection();
+            apiRequest.connect();
+            requestCalls++;
 
-        var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
-        return new Gson().fromJson(JsonData, TransactionByTxidObject.class);
+            var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
+            return new Gson().fromJson(JsonData, TransactionByTxidObject.class);
+        } catch (Exception ex) {
+            currentRetry++;
+            if(currentRetry > maxRetries)
+                throw new IOException("No more retries");
+
+            return getTransactionDetails(bitcoinTxid, maxRetries, currentRetry);
+        }
     }
 
     // Methode zum prüfen, ob eine Bitcoin Adresse gültig ist
-    public boolean CheckIfAddressIsValid(String BitcoinAddress) throws IOException {
+    // API Endpoint: "/api/BTC/mainnet/address/"
+    public boolean CheckIfAddressIsValid(String BitcoinAddress, int maxRetries, int currentRetry) throws IOException {
 
-        var APIEndpoint = "/api/BTC/mainnet/address/";
-        var url = baseURL + APIEndpoint + BitcoinAddress;
+        try {
+            var APIEndpoint = "/api/BTC/mainnet/address/";
+            var url = baseURL + APIEndpoint + BitcoinAddress;
 
-        var apiRequest = new URL(url).openConnection();
-        apiRequest.connect();
+            var apiRequest = new URL(url).openConnection();
+            apiRequest.connect();
+            requestCalls++;
 
-        var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
-        var Transactions = new Gson().fromJson(JsonData, model.TransactionByBitcoinObject[].class);
+            var JsonData = new InputStreamReader((InputStream) apiRequest.getContent());
+            var Transactions = new Gson().fromJson(JsonData, model.TransactionByBitcoinObject[].class);
 
-        return Transactions.length != 0;
+            return Transactions.length != 0;
+        } catch (Exception ex) {
+            currentRetry++;
+            if(currentRetry > maxRetries)
+                throw new IOException("No more retries");
+
+            return CheckIfAddressIsValid(BitcoinAddress, maxRetries, currentRetry);
+        }
+    }
+
+    public int getRequestCalls() {
+        return requestCalls;
     }
 }
 
