@@ -4,7 +4,6 @@ import apis.BitcoinAPIHandler;
 import model.MarkedBitcoin;
 import model.TransactionByBitcoinObject;
 import model.TransactionByTxidObjectInput;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +18,8 @@ public class MarkedBitcoinService {
         bitcoinAPIHandler = new BitcoinAPIHandler();
     }
 
-    public void getAddress(String address, MarkedBitcoin markedBitcoin, int maxLevel, int currentLevel, String[] txId) throws IOException {
+    // Startet die Berechnung der markierten Bitcoins
+    public void calculateMarkedBitcoinsRecursive(String address, MarkedBitcoin markedBitcoin, int maxLevel, int currentLevel, String[] txId) throws IOException {
         if (currentLevel == maxLevel)
             return;
 
@@ -42,13 +42,24 @@ public class MarkedBitcoinService {
             }
         }
 
+        // Recursive call: Berechnet den naechsten layer
         for (Map.Entry<String, ArrayList<String>> entry : dict.entrySet()) {
             var mb = new MarkedBitcoin(entry.getKey());
             markedBitcoin.getChildren().add(mb);
-            getAddress(entry.getKey(), mb, maxLevel, currentLevel, entry.getValue().toArray(String[]::new));
+            calculateMarkedBitcoinsRecursive(entry.getKey(), mb, maxLevel, currentLevel, entry.getValue().toArray(String[]::new));
         }
     }
 
+    // Checkt ob die Bitcoin Adresse gueltig ist und transaktionen beinhaltet
+    public boolean CheckIfBitcoinAddressIsValid(String BitcoinAddress) throws IOException {
+        if (bitcoinAPIHandler.CheckIfAddressIsValid(BitcoinAddress)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Gibt die naechsten Adressen zurueck,die ueberpruft werden muessen (LIFO Prinzip)
     private MarkedBitcoin[] getNextAddressesToTrackWithLiFo(TransactionByBitcoinObject btcAddressTransaction, String markedBtcAddress) throws IOException {
         var toTrackAddresses = new ArrayList<MarkedBitcoin>();
         var transactionDetails = bitcoinAPIHandler.getTransactionDetails(btcAddressTransaction.spentTxid);
@@ -57,6 +68,7 @@ public class MarkedBitcoinService {
         if (input == null)
             return new MarkedBitcoin[0];
 
+        // Iteriert durch alle Inputs / Outputs und berechnet daraus die naechsten Adressen
         for (var i = 0; i < transactionDetails.outputs.length; ) {
             var output = transactionDetails.outputs[i];
             var initialInput = input.value;

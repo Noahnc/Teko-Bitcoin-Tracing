@@ -36,7 +36,7 @@
       <HBox alignment="CENTER" layoutX="1.0" layoutY="75.0" prefHeight="35.0" prefWidth="956.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
             <TextField fx:id="BitcoinAddressValue" prefHeight="25.0" prefWidth="433.0" promptText="Bitcoin Addresse eingeben" />
-            <ComboBox fx:id="LayerDepth" minWidth="-Infinity" onAction="#OnLayerDepthSelectionChnage" prefWidth="60.0" />
+            <ComboBox fx:id="LayerDepth" minWidth="-Infinity" onAction="#OnLayerDepthSelectionChange" prefWidth="60.0" />
             <Button fx:id="StartBitcoinTracing" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#StartTracing" prefHeight="25.0" prefWidth="127.0" text="Verfolgung starten" />
          </children>
          <opaqueInsets>

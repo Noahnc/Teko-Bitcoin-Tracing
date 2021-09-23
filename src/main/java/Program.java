@@ -3,15 +3,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.File;
-import java.io.IOException;
 
 public class Program extends Application {
-
-    public static Boolean DebugMode = false;
-    public static String BitcoinAddress;
-
 
     public static void main(String[] args) {
         launch(args);

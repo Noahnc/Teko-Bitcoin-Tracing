@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import logic.BitcoinHandler;
 import logic.MarkedBitcoinService;
 import model.MarkedBitcoin;
 
@@ -44,7 +43,7 @@ public class MainController implements Initializable {
         File image = new File("src/assets/bitcoin.png");
         MainWindowsImage.setImage(new Image(image.toURI().toString()));
 
-        LayerDepth.getItems().addAll(1, 5, 10, 50, 200, 1000);
+        LayerDepth.getItems().addAll(1, 2, 3, 4, 5, 10, 50, 200, 1000);
         LayerDepth.getSelectionModel().selectFirst();
     }
 
@@ -60,72 +59,74 @@ public class MainController implements Initializable {
     @FXML
     public void StartTracing() throws IOException {
         InputInfo.setText("");
-        DisableLoadingAnimation();
+        disableLoadingAnimation();
 
-        BitcoinHandler Bitcoinhandler = new BitcoinHandler();
-        String BitcoinAddress = BitcoinAddressValue.getText();
-
-        if (BitcoinAddress.equals("")) {
+        // Validiert den Input
+        var bitcoinAddressValueText = BitcoinAddressValue.getText();
+        if (bitcoinAddressValueText == null || bitcoinAddressValueText.equals("")) {
             InputInfo.setText("Eingabe darf nicht leer sein!");
-        } else {
-            if (Bitcoinhandler.CheckIfBitcoinAddressIsValid(BitcoinAddress)) {
-                EnableLoadingAnimation();
-
-                Thread thread = new Thread(() -> {
-                    try {
-                        var result = new MarkedBitcoin(BitcoinAddressValue.getText());
-                        new MarkedBitcoinService().getAddress(result.getAddress(), result, LayerDepth.getValue(), 0, new String[0]);
-
-                        Platform.runLater(() -> {
-                            DisableLoadingAnimation();
-
-                            var item = new TreeItem<>(result.getAddress());
-                            var treeView = new TreeView<String>();
-
-                            treeView.prefHeightProperty().bind(TransactionsVBox.getScene().heightProperty());
-                            treeView.prefWidthProperty().bind(TransactionsVBox.getScene().widthProperty());
-
-                            treeView.setRoot(item);
-                            addToTreeView(item, result);
-
-                            TransactionsVBox.getChildren().add(treeView);
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                thread.start();
-            } else {
-                InputInfo.setText("Unter dieser Bitcoin Adresse wurde keine ausgehende Transaktion gefunden.");
-            }
+            return;
         }
 
+        // Checkt die Bitcoin Adresse
+        var markedBitcoinService = new MarkedBitcoinService();
+        if (!markedBitcoinService.CheckIfBitcoinAddressIsValid(bitcoinAddressValueText)) {
+            InputInfo.setText("Unter dieser Bitcoin Adresse wurde keine ausgehende Transaktion gefunden.");
+            return;
+        }
+
+        enableLoadingAnimation();
+        Thread thread = new Thread(() -> {
+            try {
+                var result = new MarkedBitcoin(BitcoinAddressValue.getText());
+                markedBitcoinService.calculateMarkedBitcoinsRecursive(result.getAddress(), result, LayerDepth.getValue(), 0, new String[0]);
+
+                Platform.runLater(() -> {
+                    disableLoadingAnimation();
+
+                    var item = new TreeItem<>(result.getAddress());
+                    var treeView = new TreeView<String>();
+
+                    treeView.prefHeightProperty().bind(TransactionsVBox.getScene().heightProperty());
+                    treeView.prefWidthProperty().bind(TransactionsVBox.getScene().widthProperty());
+
+                    treeView.setRoot(item);
+                    addToTreeView(item, result);
+
+                    TransactionsVBox.getChildren().add(treeView);
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        thread.start();
     }
 
-    void DisableLoadingAnimation() {
+    void disableLoadingAnimation() {
         TransactionsVBox.getChildren().removeAll(TransactionsVBox.getChildren());
         StartBitcoinTracing.setDisable(false);
     }
 
-    void EnableLoadingAnimation() {
+    void enableLoadingAnimation() {
         TransactionsVBox.getChildren().add(new ImageView(LoadingImage));
         TransactionsVBox.getChildren().add(new Label("Bitcoins werden gesucht, bitte warten!"));
         StartBitcoinTracing.setDisable(true);
     }
 
-    @FXML public void OnLayerDepthSelectionChnage() {
+    // Berechnet die breite des Dropdowns je nach grösse der Zahl
+    @FXML
+    public void OnLayerDepthSelectionChange() {
         switch (LayerDepth.getValue()) {
             case 1:
-                LayerDepth.setPrefWidth(60);
-                break;
+            case 2:
+            case 3:
+            case 4:
             case 5:
                 LayerDepth.setPrefWidth(60);
                 break;
 
             case 10:
-                LayerDepth.setPrefWidth(65);
-                break;
             case 50:
                 LayerDepth.setPrefWidth(65);
                 break;
@@ -137,7 +138,6 @@ public class MainController implements Initializable {
             case 1000:
                 LayerDepth.setPrefWidth(79);
                 break;
-
         }
     }
 }
