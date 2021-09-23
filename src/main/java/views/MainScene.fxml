@@ -25,7 +25,10 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <ImageView fx:id="MainWindowsImage" fitHeight="70.0" fitWidth="70.0" />
+                  <ImageView fx:id="MainWindowsImage" fitHeight="40.0" fitWidth="40.0">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin></ImageView>
                </children>
             </HBox>
          </children>

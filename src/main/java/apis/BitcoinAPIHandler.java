@@ -36,7 +36,7 @@ public class BitcoinAPIHandler {
         return new Gson().fromJson(JsonData, TransactionByTxidObject.class);
     }
 
-    // Methode zum überprüfen, ob eine Bitcoin Adresse gültig ist
+    // Methode zum prüfen, ob eine Bitcoin Adresse gültig ist
     public boolean CheckIfAddressIsValid(String BitcoinAddress) throws IOException {
 
         var APIEndpoint = "/api/BTC/mainnet/address/";
